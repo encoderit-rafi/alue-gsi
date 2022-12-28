@@ -1,0 +1,358 @@
+/*-------------------------------------------*\
+  Background Colors
+\*-------------------------------------------*/
+
+/* Transparent */
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+/* Main Blue */
+
+.bg-blue-1 {
+  background: #010544;
+}
+.bg-blue-2 {
+  background: #42f8e9;
+}
+.bg-blue-3 {
+  background: #00c2c3;
+}
+.bg-blue-4 {
+  background: #55c5cd;
+}
+
+/* Grey Scale */
+
+.bg-grey-1 {
+  background: #060B1A;
+}
+.bg-grey-2 {
+  background: #172038;
+}
+.bg-grey-3 {
+  background: #5B6A80;
+}
+.bg-grey-4 {
+  background: #828FA4;
+}
+.bg-grey-5 {
+  background: #B5BFCD;
+}
+.bg-grey-6 {
+  background: #DEE4ED;
+}
+.bg-grey-7 {
+  background: #F6F7F8;
+}
+
+/* Green */
+
+.bg-green-1 {
+  background: #006A4A;
+}
+.bg-green-2 {
+  background: #009858;
+}
+.bg-green-3 {
+  background: #0FC970;
+}
+
+/* Red */
+
+.bg-red-1 {
+  background: #C30023;
+}
+.bg-red-2 {
+  background: #DF0000;
+}
+
+/* Neutral */
+
+.bg-neutral-white {
+  background: #FFFFFF;
+}
+.bg-neutral-black {
+  background: #000000;
+}
+
+/*-------------------------------------------*\
+  Font Colors
+\*-------------------------------------------*/
+
+/* Main Blue */
+
+.ft-blue-1 {
+  color: #010544;
+}
+.ft-blue-2 {
+  color: #42f8e9;
+}
+.ft-blue-3 {
+  color: #00c2c3;
+}
+.ft-blue-4 {
+  color: #55c5cd;
+}
+
+/* Grey Scale */
+
+.ft-grey-1 {
+  color: #060B1A;
+}
+.ft-grey-2 {
+  color: #172038;
+}
+.ft-grey-3 {
+  color: #5B6A80;
+}
+.ft-grey-4 {
+  color: #828FA4;
+}
+.ft-grey-5 {
+  color: #B5BFCD;
+}
+.ft-grey-6 {
+  color: #DEE4ED;
+}
+.ft-grey-7 {
+  color: #F6F7F8;
+}
+
+/* Green */
+
+.ft-green-1 {
+  color: #006A4A;
+}
+.ft-green-2 {
+  color: #009858;
+}
+.ft-green-3 {
+  color: #0FC970;
+}
+
+/* Alert Red */
+
+.ft-red-1 {
+  color: #C30023;
+}
+.ft-red-2 {
+  color: #DF0000;
+}
+
+/* Neutral */
+
+.ft-neutral-white {
+  color: #FFFFFF;
+}
+.ft-neutral-black {
+  color: #000000;
+}
+
+/*-------------------------------------------*\
+  Font Weight
+\*-------------------------------------------*/
+
+.ft-w-normal {
+  font-weight: normal;
+}
+.ft-w-bold {
+  font-weight: bold;
+}
+.ft-w-500 {
+  font-weight: 500;
+}
+.ft-w-600 {
+  font-weight: 600;
+}
+.ft-w-700 {
+  font-weight: 700;
+}
+.ft-w-800 {
+  font-weight: 800;
+}
+
+/*-------------------------------------------*\
+  Font Size
+\*-------------------------------------------*/
+
+.ft-size-86 {
+  font-size: 86px;
+}
+.ft-size-74 {
+  font-size: 74px;
+}
+.ft-size-68 {
+  font-size: 68px;
+}
+.ft-size-60 {
+  font-size: 60px;
+}
+.ft-size-56 {
+  font-size: 56px;
+}
+.ft-size-40 {
+  font-size: 40px;
+}
+.ft-size-32 {
+  font-size: 32px;
+}
+.ft-size-28 {
+  font-size: 28px;
+}
+.ft-size-24 {
+  font-size: 24px;
+}
+.ft-size-20 {
+  font-size: 20px;
+}
+.ft-size-18 {
+  font-size: 18px;
+}
+.ft-size-16 {
+  font-size: 16px;
+}
+.ft-size-15 {
+  font-size: 15px;
+}
+.ft-size-14 {
+  font-size: 14px;
+}
+.ft-size-13 {
+  font-size: 13px;
+}
+.ft-size-12 {
+  font-size: 12px;
+}
+.ft-size-10 {
+  font-size: 10px;
+}
+.ft-size-9 {
+  font-size: 9px;
+}
+
+/*-------------------------------------------*\
+  Cursor
+\*-------------------------------------------*/
+
+.pointer {
+  cursor: pointer;
+}
+
+/*-------------------------------------------*\
+  Position
+\*-------------------------------------------*/
+
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+
+/*-------------------------------------------*\
+  Justify Content
+\*-------------------------------------------*/
+
+.space-between {
+  justify-content: space-between;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+/*-------------------------------------------*\
+  Align Content
+\*-------------------------------------------*/
+
+.align-center {
+  align-items: center;
+}
+
+/*-------------------------------------------*\
+  Border Radius 
+\*-------------------------------------------*/
+
+.border-radius-4 {
+  border-radius: 4px;
+}
+.border-radius-6 {
+  border-radius: 6px;
+}
+.border-radius-7 {
+  border-radius: 7px;
+}
+.border-radius-8 {
+  border-radius: 8px;
+}
+.border-radius-20 {
+  border-radius: 20px;
+}
+.border-radius-22 {
+  border-radius: 22px;
+}
+.border-radius-25 {
+  border-radius: 25px;
+}
+.border-radius-50 {
+  border-radius: 50px;
+}
+.border-radius-75 {
+  border-radius: 75px;
+}
+
+/*-------------------------------------------*\
+  Text Align
+\*-------------------------------------------*/
+
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+ text-align: right; 
+}
+
+/*-------------------------------------------*\
+  Box Sizing
+\*-------------------------------------------*/
+
+.border-box {
+  box-sizing: border-box;
+}
+
+/*-------------------------------------------*\
+  Display
+\*-------------------------------------------*/
+
+.d-none {
+  display: none;
+}
+.block{
+  display: block;
+}
+.inline-block {
+  display: inline-block;
+}
+.d-flex {
+  display: flex;
+}
+
+/*-------------------------------------------*\
+  Margin
+\*-------------------------------------------*/
+
+.m-0 {
+  margin: 0;
+}

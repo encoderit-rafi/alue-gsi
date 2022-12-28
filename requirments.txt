@@ -1,0 +1,1 @@
+npm install -–save vue-google-signin-button-directive
