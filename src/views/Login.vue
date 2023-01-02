@@ -11,6 +11,7 @@
 <script>
 import axios from "axios";
 
+import store from "../store";
 import config from "../assets/config.json";
 
 const useScript = (src, onLoad) => {
@@ -45,12 +46,8 @@ export default {
 
   data() {
     return {
-      GOOGLE_CLIENT_ID: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       gsiScript: null,
       isLoading: false,
-      loggedin: false,
-
-      logoutButton: false,
       renderParams: {
         width: 250,
         height: 50,
@@ -68,43 +65,29 @@ export default {
   created() {
     this.gsiScript = useScript("https://accounts.google.com/gsi/client", () => {
       window.google.accounts.id.initialize({
-        client_id: this.GOOGLE_CLIENT_ID,
-        callback: this.handleCredentialResponse
+        auto_select: true,
+        callback: this.handleCredentialResponse,
+        client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID || config.client_id
       });
+
       window.google.accounts.id.renderButton(
         document.getElementById("buttonDiv"),
         { theme: "outline", size: "large" } // customization attributes
       );
-      // window.google.accounts.id.prompt(); // also display the One Tap dialog
+
+      !this.$store.state.token && window.google.accounts.id.prompt();
     });
   },
-  mounted() {
-    const token = localStorage.getItem("setToken") || "";
-    this.client_id = config.client_id;
-
-    if (token != "") {
-      this.$router.push({ path: "/home" });
-      // location.reload();
+  beforeRouteEnter(_to, _from, next) {
+    if (store.state.token) {
+      return next("/home");
     }
-  },
-
-  watch: {
-    loginlink: function(val) {
-      alert("Changed!");
-    }
-  },
-  beforeDestroy() {
-    this.gsiScript?.remove();
+    return next();
   },
   methods: {
-    getInfo() {},
     handleCredentialResponse(response) {
-      console.log("Encoded JWT ID token: " + response.credential);
-      localStorage.setItem("setToken", response.credential);
-      const token = localStorage.getItem("setToken") || "";
-      if (token != "") {
-        this.$router.push({ path: "/home" });
-      }
+      const token = response?.credential || "";
+      this.onSignUp({ token });
     },
     refresh_auth(googleUser) {
       var self = this;
@@ -116,63 +99,44 @@ export default {
 
       return promise;
     },
-    make_request() {
-      var token_data = { token: this.userInfo.id };
-      var self = this;
-      self.isLoading = true;
+    onSignUp(body) {
+      this.isLoading = true;
       axios
-        .post(config.base_url + "/api/signup", token_data, {
+        .post(config.base_url + "/api/signup", body, {
           headers: {
             accept: "application/json",
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json"
           }
         })
-        .then(function() {
-          self.$notify({
+        .then(() => {
+          this.$notify({
             title: "Login",
-            message: "Successful logged in!",
-            type: "success"
+            type: "success",
+            message: "Successful logged in!"
           });
 
-          self.$store.commit("setToken", self.userInfo.id);
-          localStorage.setItem("setToken", self.userInfo.id);
-          localStorage.setItem("expires_at", self.userInfo.expires_at);
-
-          self.$router.push({ path: "/home" });
-          self.isLoading = false;
+          this.$store.commit("setToken", body?.token);
+          this.$router.push({ path: "/home" });
+          this.isLoading = false;
         })
-        .catch(function(error) {
-          self.$notify({
+        .catch(() => {
+          this.$notify({
+            type: "error",
             title: "Login",
-            message: "Unauthenticated user",
-            type: "error"
+            message: "Unauthenticated user"
           });
-          self.$store.commit("setToken", "");
-          localStorage.setItem("setToken", "");
-          localStorage.setItem("expires_at", 0);
-
-          self.isLoading = false;
+          this.$store.commit("setToken", "");
+          this.isLoading = false;
         });
+    },
+    onFailure() {
+      this.$notify({
+        title: "Login",
+        message: "Unauthenticated user",
+        type: "error"
+      });
     }
-    // onSuccess(googleUser) {
-    //   this.userInfo.id = googleUser.getAuthResponse().id_token;
-    //   this.userInfo.expires_at = googleUser.getAuthResponse().expires_at;
-
-    //   if (this.userInfo.expires_at <= new Date().getTime()) {
-    //     var self = this;
-    //     this.refresh_auth(googleUser).then(function() {
-    //       self.make_request();
-    //     });
-    //   } else this.make_request();
-    // },
-    // onFailure() {
-    //   this.$notify({
-    //     title: "Login",
-    //     message: "Unauthenticated user",
-    //     type: "error"
-    //   });
-    // },
   }
 };
 </script>

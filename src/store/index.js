@@ -5,19 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    token: null,
-    session: {
-      logged: false,
-      token: "",
-    },
+    token: localStorage.getItem("setToken") || ""
   },
   getters: {
-    logged: (state) => state.session.logged,
-    token: (state) => state.token,
+    token: state => state.token
   },
   mutations: {
     setToken(state, token) {
       state.token = token;
-    },
-  },
+      localStorage.setItem("setToken", token);
+    }
+  }
 });

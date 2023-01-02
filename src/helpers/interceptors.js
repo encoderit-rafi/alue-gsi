@@ -16,18 +16,14 @@ export default function setup() {
     }
   );
 
-  var self = this;
   axios.interceptors.response.use(
-    (response) => {
+    response => {
       return response;
     },
     function(error) {
       if (error.response.status === 401) {
-                
         router.push("/login");
-        store.commit("setToken", null);
-        localStorage.setItem("setToken", "");
-
+        store.commit("setToken", "");
         return Promise.reject(error);
       }
       return Promise.reject(error);

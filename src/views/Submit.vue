@@ -7,11 +7,6 @@
         :is-full-page="fullPage"
       ></loading>
     </div>
-    <meta name="google-signin-scope" content="profile email" />
-    <meta
-      name="google-signin-client_id"
-      content="932846290701-uqtm2gq9g3f3nhtsji16ls61tvr84qhk.apps.googleusercontent.com"
-    />
 
     <p class="page-title ft-blue-1 ft-size-20">Submit</p>
     <div class="page-body bg-neutral-white border-radius-6">
@@ -25,32 +20,81 @@
             label-width="0px"
             class="demo-ruleForm"
           >
-            <el-form-item prop="model_name" v-tooltip="'A short name for your system, which will be displayed in the leaderboard. (Required)'">
-              <el-input placeholder="Submission Name*" v-model="ruleForm.model_name"></el-input>
+            <el-form-item
+              prop="model_name"
+              v-tooltip="
+                'A short name for your system, which will be displayed in the leaderboard. (Required)'
+              "
+            >
+              <el-input
+                placeholder="Submission Name*"
+                v-model="ruleForm.model_name"
+              ></el-input>
             </el-form-item>
 
-            <el-form-item prop="url" v-tooltip="'A URL for a paper or (if one is not available) website or code repository describing your system.'">
-              <el-input placeholder="Model URL/Github" v-model="ruleForm.url"></el-input>
+            <el-form-item
+              prop="url"
+              v-tooltip="
+                'A URL for a paper or (if one is not available) website or code repository describing your system.'
+              "
+            >
+              <el-input
+                placeholder="Model URL/Github"
+                v-model="ruleForm.url"
+              ></el-input>
             </el-form-item>
 
-            <el-form-item prop="modelDescription" v-tooltip="'A sentence or two descriping your system. Make sue to mention any outside data or resources. (Required)'">
-              <el-input type="textarea" placeholder="Model Description*" v-model="ruleForm.modelDescription"></el-input>
+            <el-form-item
+              prop="modelDescription"
+              v-tooltip="
+                'A sentence or two descriping your system. Make sue to mention any outside data or resources. (Required)'
+              "
+            >
+              <el-input
+                type="textarea"
+                placeholder="Model Description*"
+                v-model="ruleForm.modelDescription"
+              ></el-input>
             </el-form-item>
 
-            <el-form-item prop="paramDescription" v-tooltip="'A sentence or two explaining how you share parameters across tasks. (Or stating that you don\'t share parameters) (Required)'">
-              <el-input type="textarea" placeholder="Parameter sharing description*" v-model="ruleForm.paramDescription"></el-input>
+            <el-form-item
+              prop="paramDescription"
+              v-tooltip="
+                'A sentence or two explaining how you share parameters across tasks. (Or stating that you don\'t share parameters) (Required)'
+              "
+            >
+              <el-input
+                type="textarea"
+                placeholder="Parameter sharing description*"
+                v-model="ruleForm.paramDescription"
+              ></el-input>
             </el-form-item>
 
-            <el-form-item prop="totalParam" v-tooltip="' The total number of trained parameters in your model. <br/> Do not count word or word-part embedding parameters, even if they are trained'">
-              <el-input placeholder="Total number of parameters" v-model="ruleForm.totalParam"></el-input>
+            <el-form-item
+              prop="totalParam"
+              v-tooltip="
+                ' The total number of trained parameters in your model. <br/> Do not count word or word-part embedding parameters, even if they are trained'
+              "
+            >
+              <el-input
+                placeholder="Total number of parameters"
+                v-model="ruleForm.totalParam"
+              ></el-input>
             </el-form-item>
 
-            <el-form-item prop="sharedParam" v-tooltip="' The total number of trained parameters in your model that are shared across multiple tasks. <br/> Do not count word or word-part embedding parameters, even if they are trained'">
-              <el-input placeholder="Shared number of parameters" v-model="ruleForm.sharedParam"></el-input>
+            <el-form-item
+              prop="sharedParam"
+              v-tooltip="
+                ' The total number of trained parameters in your model that are shared across multiple tasks. <br/> Do not count word or word-part embedding parameters, even if they are trained'
+              "
+            >
+              <el-input
+                placeholder="Shared number of parameters"
+                v-model="ruleForm.sharedParam"
+              ></el-input>
             </el-form-item>
-
           </el-form>
-          
+
           <el-checkbox id="checkbox" v-model="checked">Public?</el-checkbox>
           <br /><br />
           <label
@@ -77,70 +121,70 @@ import axios from "axios";
 import VTooltip from "v-tooltip";
 import config from "../assets/config.json";
 import Loading from "vue-loading-overlay";
+import store from "../store";
 
 Vue.use(VTooltip);
 
 export default {
   name: "submit",
   components: {
-    Loading,
+    Loading
   },
-  mounted() {
-    const token = localStorage.getItem("setToken") || "";
-    if (token == "") {
-      this.$router.push({ path: "/login" });
-      // location.reload();
+  beforeRouteEnter(_to, _from, next) {
+    if (!store.state.token) {
+      return next({ path: "/login" });
     }
+    return next();
   },
   data() {
     return {
       ruleForm: {
-          model_name: "",
-          url: "",
-          modelDescription: "",
-          paramDescription: "",
-          totalParam: "",
-          sharedParam: "",
+        model_name: "",
+        url: "",
+        modelDescription: "",
+        paramDescription: "",
+        totalParam: "",
+        sharedParam: ""
       },
       rules: {
         model_name: [
           {
             required: true,
             message: "Please input Submission Name",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         url: [
           {
             required: false,
             message: "Please input submission name",
-            trigger: "blur",
+            trigger: "blur"
           }
         ],
         modelDescription: [
           {
             required: true,
             message: "Please input Model Description",
-            trigger: "blur",
+            trigger: "blur"
           }
         ],
         paramDescription: [
           {
             required: true,
             message: "Please input Parameters Description",
-            trigger: "blur",
-          },
+            trigger: "blur"
+          }
         ],
         totalParam: [
           {
-            required: false,
-          },
+            required: false
+          }
         ],
         sharedParam: [
           {
-            required: false,
-          },
-        ],
+            required: false
+          }
+        ]
       },
       model_name: "",
       url: "",
@@ -153,7 +197,7 @@ export default {
       items: [{ title: "Submit", answer: "asdqwe" }],
 
       isLoading: false,
-      fullPage: true,
+      fullPage: true
     };
   },
   methods: {
@@ -163,13 +207,13 @@ export default {
         this.$notify({
           title: "File Format",
           message: "File should be in .zip format",
-          type: "error",
+          type: "error"
         });
       }
     },
     submitFile(formName) {
       let form_valid = false;
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           form_valid = true;
         } else {
@@ -177,12 +221,11 @@ export default {
         }
       });
 
-      if (!form_valid)
-      {
+      if (!form_valid) {
         this.$notify({
           title: "Submission",
           message: "Please fill in all the required fields.",
-          type: "error",
+          type: "error"
         });
 
         return;
@@ -195,7 +238,7 @@ export default {
         total_param: this.ruleForm.totalParam.toString(),
         shared_param: this.ruleForm.sharedParam.toString(),
         code_link: this.ruleForm.url,
-        public: this.checked,
+        public: this.checked
       };
 
       let formData = new FormData();
@@ -203,36 +246,36 @@ export default {
       formData.append("metadata", JSON.stringify(json_data));
 
       var self = this;
-      const token = "Bearer " + localStorage.getItem("setToken");
+      const token = "Bearer " + this.$store.state.token;
       this.isLoading = true;
       axios
         .post(config.base_url + "/api/submissions", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             "Access-Control-Allow-Origin": "*",
-            Authorization: token,
-          },
+            Authorization: token
+          }
         })
-        .then(function () {
+        .then(function() {
           self.$notify({
             title: "Submission",
             message: "File has been submitted successfully",
-            type: "success",
+            type: "success"
           });
 
           self.isLoading = false;
           self.$router.push({ path: "/leaderboard" });
         })
-        .catch(function (error){    
+        .catch(function(error) {
           self.$notify({
             title: "Submission",
             message: error.response.data.data,
-            type: "error",
+            type: "error"
           });
           self.isLoading = false;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

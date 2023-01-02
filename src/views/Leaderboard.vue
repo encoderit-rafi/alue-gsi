@@ -97,7 +97,7 @@
         >
           <template slot-scope="scope">
             <el-switch
-              width=50
+              width="50"
               v-show="scope.row.related_to_user"
               v-model="scope.row.public"
               active-color="#13ce66"
@@ -133,18 +133,15 @@ export default {
     Slide,
     Loading,
     GoogleLogin,
-    OnoffToggle,
+    OnoffToggle
   },
   mounted() {
-    const token = "Bearer " + localStorage.getItem("setToken");
-    const exires_at = localStorage.getItem("expires_at");
-
     this.isLoading = true;
     let leaderboard_data = null;
     let self = this;
     axios
       .get(config.base_url + "/api/submissions")
-      .then(function (response) {
+      .then(function(response) {
         leaderboard_data = response.data.data;
 
         for (var i = 0; i < leaderboard_data.length; i++) {
@@ -180,16 +177,16 @@ export default {
           leaderboard_data[i].diagnostic = parseFloat(
             leaderboard_data[i].diagnostic * 100
           ).toFixed(1);
-          if (leaderboard_data[i].related_to_user){
+          if (leaderboard_data[i].related_to_user) {
             self.has_user_submissions = true;
-            }
+          }
         }
 
         let json_return = leaderboard_data;
         self.tableData = json_return;
         self.isLoading = false;
       })
-      .catch(function (error) {
+      .catch(function(error) {
         self.isLoading = false;
       });
   },
@@ -199,12 +196,12 @@ export default {
       isLoading: false,
       fullPage: true,
       checked: false,
-      has_user_submissions: false,
+      has_user_submissions: false
     };
   },
   methods: {
-    rowClicked: function (row) {},
-    openLink: function (link) {
+    rowClicked: function(row) {},
+    openLink: function(link) {
       window.open(link, "_blank");
     },
     handleHelp(h, { column }) {
@@ -260,10 +257,10 @@ export default {
         </el-tooltip>
       );
     },
-    make_private: function (id, value) {
+    make_private: function(id, value) {
       //TODO:
       // API Request to make private/public
-      const token = "Bearer " + localStorage.getItem("setToken");
+      const token = "Bearer " + this.$store.state.token;
 
       var body_data = { public: value };
       let self = this;
@@ -271,29 +268,29 @@ export default {
 
       axios
         .put(config.base_url + "/api/submissions/" + id, body_data, {
-          headers: { Authorization: token },
+          headers: { Authorization: token }
         })
-        .then(function (response) {
+        .then(function(response) {
           self.isLoading = false;
 
           self.$notify({
             title: "Update",
             message: "Updated successfully",
-            type: "success",
+            type: "success"
           });
           self.$router.go(0);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           self.isLoading = false;
         });
     },
-    make_private_text: function (row_is_private) {
+    make_private_text: function(row_is_private) {
       if (row_is_private) {
         return "Make Public";
       }
       return "Make Private";
     },
-    rowClicked: function (row) {
+    rowClicked: function(row) {
       const panel1Handle = this.$showPanel({
         component: Slide,
         openOn: "right",
@@ -304,23 +301,23 @@ export default {
           model_description: row.model_description, //TODO
           param_description: row.param_description,
           shared_param: row.shared_param,
-          total_param: row.total_param,
+          total_param: row.total_param
           //any data you want passed to your component
-        },
+        }
       });
 
-      panel1Handle.promise.then((result) => {});
+      panel1Handle.promise.then(result => {});
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.related_to_user == true) {
         return "warning-row";
       }
-      if (row.is_baseline){
+      if (row.is_baseline) {
         return "baseline-row";
       }
       return "";
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,15 +1,13 @@
 <style scoped lang="scss">
-#app{
-  
-		.black-overlay{
-			background-color: #0000005e;
-			position: fixed;
-			left: 0;
-			top: 0;
-			width: 100vw;
-			height: 100vh;
-    }
-    
+#app {
+  .black-overlay {
+    background-color: #0000005e;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+  }
 }
 .google-signin-button {
   color: white;
@@ -24,8 +22,8 @@
 
 <template>
   <div id="app">
-<meta name="viewport" content="width=1024">
-		<alue-header ref="header"></alue-header>
+    <meta name="viewport" content="width=1024" />
+    <alue-header ref="header"></alue-header>
     <alue-footer ref="footer"></alue-footer>
     <!-- <div class="black-overlay d-none" v-on:click="expanded(false)"></div> -->
 
@@ -56,88 +54,83 @@
     </el-dialog> -->
   </div>
 </template>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-    
+
 <script>
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+import Slide from "./components/Slide.vue";
 
+import Vue from "vue";
 
-  import Header from "./components/Header.vue";
-  import Footer from "./components/Footer.vue";
-  import Slide from "./components/Slide.vue";
+Vue.component("alue-header", Header);
+Vue.component("alue-footer", Footer);
+Vue.component("alue-slide", Slide);
 
-  import Vue from "vue";
-
-  Vue.component("alue-header", Header);
-  Vue.component("alue-footer", Footer);
-  Vue.component("alue-slide", Slide);
-
-  export default {
-    name: "app",
-    components:{
-      Header,
-      Footer,
-      Slide
-    },
-    watch:{
-      $route(to,from){
-        this.$refs.header.selectTab(window.location.pathname);
-        window.scrollTo(0,0);
-      }
-	  },
-	  mounted() {
-      
+export default {
+  name: "app",
+  components: {
+    Header,
+    Footer,
+    Slide
+  },
+  watch: {
+    $route(to, from) {
       this.$refs.header.selectTab(window.location.pathname);
-      // grecaptcha.execute;
-		},
-		data() {
-    	return {
-				loggedin: false,
-        dialogVisible: false,
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-        clientId: '932846290701-uqtm2gq9g3f3nhtsji16ls61tvr84qhk.apps.googleusercontent.com'
-    	};
-    },
-	  methods: {
-       OnGoogleAuthSuccess (idToken) {
-    },
-    OnGoogleAuthFail (error) {
-      console.log(error)
-    },
-  
-			renderLoggedinState: function() {
-				this.loggedin = true;
-			},
-			userDropdownTriggered: function(command) {
-				switch(command){
-					case "logout":
-						this.expanded = false;
-						this.loggedin = false;
-  					localStorage.clear();
-						this.$notify({
-              title: "Success",
-              message: "Logged out Successfully",
-              type: "success"
-            });
-						break;
-				}
-			},
-      expanded: function(expand) {
-        $(this.$el.querySelector(".black-overlay")).stop();
-            if(expand){
-                $(this.$el.querySelector(".black-overlay")).fadeIn();
-                  this.$refs.header.expand();
-            }
-            else{
-                $(this.$el.querySelector(".black-overlay")).fadeOut();
-                this.$refs.header.collapse();
-            }
-      },
-   
-    },
-    
+      window.scrollTo(0, 0);
+    }
+  },
+  mounted() {
+    this.$refs.header.selectTab(window.location.pathname);
+  },
+  data() {
+    return {
+      loggedin: false,
+      dialogVisible: false,
+      name: "",
+      email: "",
+      subject: "",
+      message: ""
+    };
+  },
+  methods: {
+    handleCredentialResponse(response) {
+      console.log(response);
 
+      const token = response?.credential || "";
+      this.$store.commit("setToken", token);
+
+      if (token) {
+        // this.onSuccess(response);
+        this.$router.push({ path: "/home" });
+      }
+    },
+    renderLoggedinState: function() {
+      this.loggedin = true;
+    },
+    userDropdownTriggered: function(command) {
+      switch (command) {
+        case "logout":
+          this.expanded = false;
+          this.loggedin = false;
+          localStorage.clear();
+          this.$notify({
+            title: "Success",
+            message: "Logged out Successfully",
+            type: "success"
+          });
+          break;
+      }
+    },
+    expanded: function(expand) {
+      $(this.$el.querySelector(".black-overlay")).stop();
+      if (expand) {
+        $(this.$el.querySelector(".black-overlay")).fadeIn();
+        this.$refs.header.expand();
+      } else {
+        $(this.$el.querySelector(".black-overlay")).fadeOut();
+        this.$refs.header.collapse();
+      }
+    }
   }
+};
 </script>

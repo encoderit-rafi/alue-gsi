@@ -1,10 +1,5 @@
 <template>
   <div>
-    <meta name="google-signin-scope" content="profile email" />
-    <meta
-      name="google-signin-client_id"
-      content="932846290701-uqtm2gq9g3f3nhtsji16ls61tvr84qhk.apps.googleusercontent.com"
-    />
     <div class="header bg-blue-1">
       <div
         class="container-wrapper d-flex align-center space-between horizontal layout"
@@ -55,12 +50,7 @@
               v-if="$store.state.token"
             >
               <p class="ft-neutral-white ft-size-18">
-                <GoogleLogin
-                  :params="params"
-                  :onSuccess="onSuccess"
-                  :logoutButton="true"
-                  >Logout</GoogleLogin
-                >
+                <button @click="onLogout">Logout</button>
               </p>
             </div>
           </div>
@@ -84,10 +74,10 @@
               ></span>
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="goProfile()" command="profile"
+              <el-dropdown-item @click.native="goProfile" command="profile"
                 >Profile</el-dropdown-item
               >
-              <el-dropdown-item @click.native="logout()" command="logout"
+              <el-dropdown-item @click.native="logout" command="logout"
                 >Log out</el-dropdown-item
               >
             </el-dropdown-menu>
@@ -165,36 +155,18 @@
 </template>
 
 <script>
-import axios from "axios";
-import GoogleLogin from "vue-google-login";
-
 export default {
   name: "alue-header",
-  components: {
-    GoogleLogin,
-  },
-  mounted() {
-
-    const token = localStorage.getItem("setToken") || "";
-    this.$store.commit("setToken", token);
-    this.getStatus = token;
-
-  },
   beforeDestroy() {
     window.removeEventListener("resize", this.windowResized);
   },
   data() {
     return {
-      params: {
-        client_id:
-          "932846290701-uqtm2gq9g3f3nhtsji16ls61tvr84qhk.apps.googleusercontent.com",
-      },
       renderParams: {
         width: 2500,
         height: 500,
-        longtitle: true,
+        longtitle: true
       },
-      getStatus: localStorage.getItem("setToken") || "",
       ismobile: this.isMobile(),
       expanded: false,
       isCollapse: false,
@@ -205,70 +177,66 @@ export default {
           title: "Paper",
           route: "/paper",
           icon: "el-icon-document",
-          show: true,
+          show: true
         },
         {
           title: "Cite",
           route: "/cite",
           icon: "el-icon-paperclip",
-          show: true,
+          show: true
         },
         {
           title: "Code",
           route: "/code",
           img: require("../assets/images/icons/code.svg"),
-          show: true,
+          show: true
         },
         {
           title: "Tasks",
           route: "/tasks",
           icon: "el-icon-notebook-2",
-          show: true,
+          show: true
         },
         {
           title: "Leaderboard",
           route: "/leaderboard",
           icon: "el-icon-trophy",
-          show: true,
+          show: true
         },
         { title: "FAQ", route: "/FAQ", icon: "el-icon-info", show: true },
         {
           title: "Diagnostics",
           route: "/diagnostics",
           img: require("../assets/images/icons/bug.svg"),
-          show: true,
+          show: true
         },
         {
           title: "Submit",
           route: "/Submit",
           img: require("../assets/images/icons/bug.svg"),
-          show: true,
-        },
+          show: true
+        }
         // { title: 'Login', route: '/login', img: require('../assets/images/icons/login.svg'), show: ! this.isLoggedin() },
-      ],
+      ]
     };
   },
   watch: {
     expanded: function() {
       this.$parent.expanded(this.expanded);
-    },
+    }
   },
   methods: {
     isMobile() {
       return false;
     },
-    onSuccess(googleUser) {
+    onLogout() {
       this.$notify({
         title: "Logout",
-        message: "Successfully logged out",
         type: "success",
+        message: "Successfully logged out"
       });
 
-      this.$store.commit("setToken", null);
-      localStorage.setItem("setToken", "");
-      this.getStatus = "";
-
-      this.$router.push({ path: "/home" });
+      this.$store.commit("setToken", "");
       location.reload();
     },
     // async logout(){
@@ -355,8 +323,8 @@ export default {
       $(this.$el.querySelectorAll(".nav-item")).removeClass("selected");
       $("div.nav-item:nth-of-type(" + tabIndex + ")").addClass("selected");
       this.expanded = false;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

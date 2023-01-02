@@ -8,7 +8,6 @@ import lang from "element-ui/lib/locale/lang/en";
 import locale from "element-ui/lib/locale";
 import mixin from "./assets/scripts/helper.js";
 import store from "./store";
-import GoogleSignInButton from "vue-google-signin-button-directive";
 import interceptorsSetup from "./helpers/interceptors";
 
 interceptorsSetup();
@@ -26,6 +25,5 @@ Vue.config.productionTip = false;
 new Vue({
   store,
   router,
-  GoogleSignInButton,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");
